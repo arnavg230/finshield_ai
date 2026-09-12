@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, DateTime
+from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey
 from app.database.database import Base
 
 
@@ -6,10 +6,20 @@ class Transaction(Base):
     __tablename__ = "transactions"
 
     id = Column(Integer, primary_key=True, index=True)
+
+    user_id = Column(
+        Integer,
+        ForeignKey("users.id"),
+        nullable=False
+    )
+
     sender = Column(String, nullable=False)
     receiver = Column(String, nullable=False)
+
     transaction_type = Column(String, nullable=False)
+
     amount = Column(Float, nullable=False)
+
     timestamp = Column(DateTime, nullable=False)
 
     status = Column(String, default="pending")
@@ -17,5 +27,6 @@ class Transaction(Base):
     fraud_score = Column(Float, nullable=True)
     aml_score = Column(Float, nullable=True)
     behavior_score = Column(Float, nullable=True)
+
     risk_score = Column(Float, nullable=True)
     risk_level = Column(String, nullable=True)
